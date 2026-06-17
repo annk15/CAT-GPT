@@ -74,6 +74,8 @@ body {
   position: relative;
   width: min(78vw, 420px);
   aspect-ratio: 1;
+  display: grid;
+  place-items: center;
   animation: cat-float 4s ease-in-out infinite;
 }
 
@@ -81,230 +83,239 @@ body {
   animation: cat-float 2s ease-in-out infinite, cat-wiggle 0.5s ease-in-out infinite;
 }
 
+.cat-wrap.is-listening .kawaii-cat .tail {
+  animation-duration: 4s;
+}
+
+.cat-wrap.is-listening .kawaii-cat .head {
+  animation-duration: 4s;
+}
+
 .cat-wrap.is-talking {
   animation: cat-float 3s ease-in-out infinite, cat-bounce-talk 0.35s ease-in-out infinite;
 }
 
-.cat-wrap.is-thinking .cat-eye .cat-pupil {
-  animation: cat-look 1.2s ease-in-out infinite;
+.cat-wrap.is-talking .kawaii-cat .tail {
+  animation-duration: 2.5s;
 }
 
-.cat-shadow {
+.cat-wrap.is-talking .kawaii-cat .head {
+  animation-duration: 3s;
+}
+
+.cat-wrap.is-thinking .kawaii-cat .eye {
+  animation: blink 5s infinite, eye-look 1.2s ease-in-out infinite;
+}
+
+.cat-wrap.is-thinking .kawaii-cat .ear + .ear {
+  animation: twitch 2s infinite;
+}
+
+.kawaii-cat {
+  --fur: #222;
+  --fur-dark: #111;
+  --skin: pink;
+  --cat-scale: min(78vw, 420px);
+  font-size: calc(var(--cat-scale) / 80);
+  width: 80em;
+  aspect-ratio: 1;
+  position: relative;
+}
+
+.kawaii-cat *,
+.kawaii-cat *::before,
+.kawaii-cat *::after {
   position: absolute;
-  bottom: 4%;
+  box-sizing: border-box;
+}
+
+.kawaii-cat .cat-alt {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.kawaii-cat .shadow {
+  width: 80%;
+  height: 5%;
+  background: #0002;
+  border-radius: 50% / 0 0 100% 100%;
+  top: 99%;
   left: 50%;
-  width: 62%;
-  height: 10%;
-  transform: translateX(-50%);
-  background: rgba(80, 60, 90, 0.18);
-  border-radius: 50%;
-  filter: blur(6px);
+  translate: -50%;
   animation: shadow-pulse 4s ease-in-out infinite;
 }
 
-.cat-body {
-  position: absolute;
+.kawaii-cat .tail {
+  animation: wag-tail 13s infinite;
+  transform-origin: 20% 20%;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  border: 7em solid #0000;
+  border-top-color: var(--fur-dark);
+  border-left-color: var(--fur-dark);
+  clip-path: polygon(100% 0, 100% 100%, 0 30%, 0 0);
+  top: 75%;
+  left: 52%;
+}
+
+.kawaii-cat .tail::before {
+  content: "";
+  width: 7em;
+  aspect-ratio: 1;
+  background: var(--fur-dark);
+  border-radius: 50%;
+  left: 81%;
+  top: -9%;
+}
+
+.kawaii-cat .body {
+  left: 50%;
+  translate: -50%;
+  bottom: 0;
+  width: 35%;
+  height: 40%;
+  background:
+    radial-gradient(100% 80% at 50% 0, var(--fur-dark) 50%, #0000 0),
+    var(--fur);
+  border-radius: 100% / 200% 200% 20% 20%;
+}
+
+.kawaii-cat .body .leg {
+  width: 165%;
+  height: 38%;
+  background: var(--fur);
+  bottom: 0;
+  left: 50%;
+  translate: -50%;
+  border-radius: 8em 8em 100% 100% / 10em 10em 16em 16em;
+  scale: 1 -1;
+}
+
+.kawaii-cat .body .paw {
+  width: 35%;
+  height: 49%;
+  border: 0.75em solid #fff;
+  border-top: 0;
+  border-radius: 0 0 5em 5em;
+  border-bottom: 1em solid #fff;
+  top: 48%;
+  rotate: -10deg;
+  left: 10%;
+  clip-path: polygon(0 20%, 100% 30%, 100% 100%, 0 100%);
+}
+
+.kawaii-cat .body .paw + .paw {
+  right: 7%;
+  height: 50%;
+  left: auto;
+  rotate: 13deg;
+  scale: -1 1;
+  clip-path: polygon(0 25%, 100% 15%, 100% 100%, 0 100%);
+}
+
+.kawaii-cat .head {
+  width: 80%;
+  aspect-ratio: 1.1;
+  left: 50%;
+  translate: -50%;
+  animation: tilt-head 13s infinite;
+  transform-origin: 50% 100%;
+}
+
+.kawaii-cat .head .ear {
+  width: 60%;
+  aspect-ratio: 1;
+  border: 4em solid var(--fur);
+  border-radius: 5% 90% 10% 80%;
+  background: var(--skin);
+}
+
+.kawaii-cat .head .ear + .ear {
+  scale: -1 1;
+  right: 0;
+  animation: twitch 7.2s infinite;
+}
+
+.kawaii-cat .head .face {
   inset: 0;
+  background:
+    linear-gradient(#0003, #0000 50%),
+    var(--fur);
+  border-radius: 100% / 125% 125% 80% 75%;
 }
 
-.cat-ear {
-  position: absolute;
-  top: 8%;
-  width: 22%;
-  height: 24%;
-  background: linear-gradient(180deg, #ffb347 0%, #ff8c42 100%);
-  border-radius: 18% 80% 0 0;
-  z-index: 1;
-}
-
-.cat-ear::after {
-  content: "";
-  position: absolute;
-  inset: 22% 18% 10% 18%;
-  background: #ffb6c9;
-  border-radius: 40% 60% 0 0;
-}
-
-.cat-ear-left {
-  left: 16%;
-  transform: rotate(-18deg);
-  animation: ear-left 3s ease-in-out infinite;
-}
-
-.cat-ear-right {
-  right: 16%;
-  transform: rotate(18deg) scaleX(-1);
-  animation: ear-right 3s ease-in-out infinite;
-}
-
-.cat-head {
-  position: absolute;
-  top: 14%;
-  left: 50%;
-  width: 72%;
-  height: 52%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #ffc56d 0%, #ffab40 100%);
-  border-radius: 48% 48% 44% 44%;
-  z-index: 2;
-  box-shadow: inset 0 -8px 0 rgba(255, 140, 66, 0.25);
-}
-
-.cat-cheek {
-  position: absolute;
-  top: 58%;
-  width: 16%;
-  height: 12%;
-  background: rgba(255, 120, 150, 0.45);
+.kawaii-cat .head .whisker {
+  width: 30%;
+  height: 30%;
   border-radius: 50%;
-  filter: blur(1px);
+  border: 2em solid #0000;
+  border-top-color: var(--fur);
+  border-left-color: var(--fur);
+  clip-path: polygon(100% 0, 100% 100%, 0 30%, 0 0);
 }
 
-.cat-cheek-left { left: 8%; }
-.cat-cheek-right { right: 8%; }
-
-.cat-eye {
-  position: absolute;
-  top: 34%;
-  width: 18%;
-  height: 22%;
-  background: #fff;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.08);
+.kawaii-cat .head .whisker:nth-child(1) {
+  top: 70%;
+  translate: -65%;
 }
 
-.cat-eye-left { left: 22%; }
-.cat-eye-right { right: 22%; }
-
-.cat-pupil {
-  position: absolute;
-  top: 28%;
-  left: 28%;
-  width: 44%;
-  height: 52%;
-  background: #2d2240;
-  border-radius: 50%;
-  transition: transform 0.15s ease;
+.kawaii-cat .head .whisker:nth-child(2) {
+  top: 80%;
+  translate: -40%;
+  rotate: -20deg;
 }
 
-.cat-shine {
-  position: absolute;
-  top: 18%;
-  left: 22%;
-  width: 28%;
-  height: 28%;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0.95;
+.kawaii-cat .head .whisker:nth-child(3) {
+  right: 0;
+  top: 70%;
+  translate: 65%;
+  rotate: 10deg;
 }
 
-.cat-nose {
-  position: absolute;
-  top: 58%;
-  left: 50%;
+.kawaii-cat .head .whisker:nth-child(4) {
+  right: 0;
+  top: 80%;
+  translate: 40%;
+  rotate: 24deg;
+}
+
+.kawaii-cat .head .nose {
   width: 10%;
-  height: 8%;
-  transform: translateX(-50%);
-  background: #ff7aa2;
-  border-radius: 45% 45% 50% 50%;
-}
-
-.cat-mouth {
-  position: absolute;
-  top: 66%;
-  left: 50%;
-  width: 14%;
-  height: 10%;
-  transform: translateX(-50%);
-}
-
-.cat-mouth-inner {
-  width: 100%;
-  height: 100%;
-  border-bottom: 4px solid #5a3d52;
-  border-radius: 0 0 50% 50%;
-  transition: transform 0.2s ease;
-}
-
-.cat-wrap.is-talking .cat-mouth-inner {
-  animation: mouth-talk 0.25s ease-in-out infinite;
-}
-
-.cat-whisker {
-  position: absolute;
-  top: 62%;
-  width: 18%;
-  height: 2px;
-  background: rgba(90, 61, 82, 0.55);
-  border-radius: 2px;
-}
-
-.cat-whisker-left-1 { left: 2%; transform: rotate(-8deg); }
-.cat-whisker-left-2 { left: 0; top: 68%; transform: rotate(0deg); }
-.cat-whisker-left-3 { left: 2%; top: 74%; transform: rotate(8deg); }
-.cat-whisker-right-1 { right: 2%; transform: rotate(8deg); }
-.cat-whisker-right-2 { right: 0; top: 68%; transform: rotate(0deg); }
-.cat-whisker-right-3 { right: 2%; top: 74%; transform: rotate(-8deg); }
-
-.cat-belly {
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  width: 58%;
-  height: 38%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, #ffab40 0%, #ff9840 100%);
-  border-radius: 42% 42% 48% 48%;
-  z-index: 1;
-}
-
-.cat-belly::before {
-  content: "";
-  position: absolute;
-  top: 18%;
-  left: 50%;
-  width: 52%;
-  height: 58%;
-  transform: translateX(-50%);
-  background: #fff0d6;
+  height: 7%;
+  background: var(--skin);
   border-radius: 50%;
-  opacity: 0.85;
+  top: 78%;
+  left: 50%;
+  translate: -50% -50%;
 }
 
-.cat-paw {
-  position: absolute;
-  bottom: 8%;
-  width: 18%;
-  height: 14%;
-  background: #ffab40;
-  border-radius: 45% 45% 50% 50%;
-  z-index: 3;
-  box-shadow: inset 0 -4px 0 rgba(255, 140, 66, 0.35);
+.kawaii-cat .head .eye {
+  --pos: 25%;
+  --x1: 50%;
+  --x2: 40%;
+  width: 35%;
+  animation: blink 5s infinite;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(50% 50% at var(--x1) 47%, #fff 2.75em, #0000 calc(2.75em + 1px)),
+    radial-gradient(50% 50% at var(--x2) 65%, #fff 1.25em, #0000 calc(1.25em + 1px)),
+    radial-gradient(circle at 60% 55%, #000 7em, #0000 calc(7em + 1px)),
+    white;
+  top: 63%;
+  left: var(--pos);
+  translate: -50% -50%;
 }
 
-.cat-paw-left {
-  left: 24%;
-  animation: paw-left 2.5s ease-in-out infinite;
-}
-
-.cat-paw-right {
-  right: 24%;
-  animation: paw-right 2.5s ease-in-out infinite 0.4s;
-}
-
-.cat-tail {
-  position: absolute;
-  right: -2%;
-  bottom: 18%;
-  width: 28%;
-  height: 38%;
-  border: 14px solid #ff9840;
-  border-color: transparent transparent #ff9840 #ff9840;
-  border-radius: 0 0 0 80%;
-  transform: rotate(-28deg);
-  z-index: 0;
-  animation: tail-swish 2.8s ease-in-out infinite;
+.kawaii-cat .head .eye + .eye {
+  --x1: 70%;
+  --x2: 80%;
+  left: calc(100% - var(--pos));
+  scale: -1 1;
 }
 
 .controls {
@@ -386,44 +397,39 @@ body {
   50% { transform: translateY(-14px) scale(1.02); }
 }
 
-@keyframes cat-look {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(18%, -8%); }
+@keyframes blink {
+  0%, 20%, 25%, 100% { aspect-ratio: 1; }
+  22.5% { aspect-ratio: 10; }
+}
+
+@keyframes tilt-head {
+  0% { rotate: 0deg; }
+  40% { rotate: -10deg; }
+  75% { rotate: 4deg; }
+  100% { rotate: 0deg; }
+}
+
+@keyframes wag-tail {
+  0% { rotate: 0deg; }
+  20% { rotate: -6deg; }
+  75% { rotate: 4deg; }
+  100% { rotate: 0deg; }
+}
+
+@keyframes twitch {
+  0%, 87%, 100% { rotate: 0deg; }
+  90%, 94%, 98% { rotate: -2deg; }
+  88%, 92%, 96% { rotate: 2deg; }
+}
+
+@keyframes eye-look {
+  0%, 100% { translate: -50% -50%; }
+  50% { translate: -35% -58%; }
 }
 
 @keyframes shadow-pulse {
-  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.9; }
-  50% { transform: translateX(-50%) scale(0.92); opacity: 0.7; }
-}
-
-@keyframes ear-left {
-  0%, 100% { transform: rotate(-18deg); }
-  50% { transform: rotate(-26deg); }
-}
-
-@keyframes ear-right {
-  0%, 100% { transform: rotate(18deg) scaleX(-1); }
-  50% { transform: rotate(26deg) scaleX(-1); }
-}
-
-@keyframes mouth-talk {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(1.6); border-radius: 40%; }
-}
-
-@keyframes paw-left {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes paw-right {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes tail-swish {
-  0%, 100% { transform: rotate(-28deg); }
-  50% { transform: rotate(-8deg); }
+  0%, 100% { scale: 1; opacity: 0.9; }
+  50% { scale: 0.92; opacity: 0.7; }
 }
 
 @keyframes button-pulse {
@@ -453,6 +459,10 @@ body {
 
   .cat-wrap {
     width: min(40vw, 280px);
+  }
+
+  .kawaii-cat {
+    --cat-scale: min(40vw, 280px);
   }
 
   .talk-button {

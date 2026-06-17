@@ -1,0 +1,26 @@
+{
+  "name": "cat-gpt",
+  "version": "1.0.0",
+  "description": "Magical talking cat for toddlers — Swedish voice chat via OpenRouter",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:https": "USE_HTTPS=1 node server.js",
+    "stop": "bash scripts/stop.sh",
+    "restart:https": "bash scripts/restart-https.sh",
+    "cert": "bash scripts/generate-cert.sh",
+    "dev": "node --watch server.js",
+    "dev:https": "USE_HTTPS=1 node --watch server.js",
+    "test:e2e": "node scripts/e2e-test.js",
+    "test:recording-state": "node scripts/test-recording-state.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}

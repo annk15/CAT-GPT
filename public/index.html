@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>CAT-GPT — Misse katten</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <main class="app" id="app">
+      <header class="header">
+        <h1 class="title">Misse</h1>
+        <p class="subtitle" id="status">Tryck knappen och prata!</p>
+      </header>
+
+      <section class="stage" aria-live="polite">
+        <div class="cat-wrap" id="cat">
+          <div class="cat-shadow"></div>
+          <div class="cat-body">
+            <div class="cat-ear cat-ear-left"></div>
+            <div class="cat-ear cat-ear-right"></div>
+            <div class="cat-head">
+              <div class="cat-cheek cat-cheek-left"></div>
+              <div class="cat-cheek cat-cheek-right"></div>
+              <div class="cat-eye cat-eye-left">
+                <div class="cat-pupil"></div>
+                <div class="cat-shine"></div>
+              </div>
+              <div class="cat-eye cat-eye-right">
+                <div class="cat-pupil"></div>
+                <div class="cat-shine"></div>
+              </div>
+              <div class="cat-nose"></div>
+              <div class="cat-mouth">
+                <div class="cat-mouth-inner"></div>
+              </div>
+              <div class="cat-whisker cat-whisker-left-1"></div>
+              <div class="cat-whisker cat-whisker-left-2"></div>
+              <div class="cat-whisker cat-whisker-left-3"></div>
+              <div class="cat-whisker cat-whisker-right-1"></div>
+              <div class="cat-whisker cat-whisker-right-2"></div>
+              <div class="cat-whisker cat-whisker-right-3"></div>
+            </div>
+            <div class="cat-belly"></div>
+            <div class="cat-paw cat-paw-left"></div>
+            <div class="cat-paw cat-paw-right"></div>
+            <div class="cat-tail"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls">
+        <button
+          class="talk-button"
+          id="talkButton"
+          type="button"
+          aria-label="Prata med Misse katten"
+        >
+          <span class="talk-button-icon" aria-hidden="true">🎤</span>
+          <span class="talk-button-label" id="talkButtonLabel">Prata med Misse!</span>
+        </button>
+      </section>
+    </main>
+
+    <script src="/js/app.js" type="module"></script>
+  </body>
+</html>

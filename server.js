@@ -25,7 +25,8 @@ const USE_HTTPS =
 const OPENROUTER_BASE = "https://openrouter.ai/api/v1";
 const VOICE_DEBUG_PREFIX = "[voice-debug]";
 
-const CHAT_MODEL = process.env.CHAT_MODEL || "google/gemini-2.5-flash";
+const CHAT_MODEL = process.env.CHAT_MODEL || "google/gemma-4-31b-it:free";
+const STT_MODEL = process.env.STT_MODEL || "google/gemini-2.5-flash-lite";
 const TTS_MODEL = process.env.TTS_MODEL || "google/gemini-3.1-flash-tts-preview";
 const TTS_VOICE = process.env.TTS_VOICE || "Kore";
 const CAT_SYSTEM_PROMPT =
@@ -100,22 +101,44 @@ async function openRouterFetch(endpoint, options = {}) {
   return response;
 }
 
-async function transcribeAudio(buffer, format) {
-  const base64 = buffer.toString("base64");
-  const audioFormat = normalizeAudioFormat(format);
+function usesDedicatedTranscriptionEndpoint(model) {
+  return /whisper|transcribe|voxtral|parakeet|chirp|asr/i.test(model);
+}
 
+async function transcribeViaDedicatedEndpoint(base64, audioFormat) {
+  const response = await openRouterFetch("/audio/transcriptions", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: STT_MODEL,
+      input_audio: { data: base64, format: audioFormat },
+      language: "sv",
+      temperature: 0,
+    }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Transcription failed (${response.status}): ${err}`);
+  }
+
+  const data = await response.json();
+  return (data.text || "").trim();
+}
+
+async function transcribeViaChat(base64, audioFormat) {
   const response = await openRouterFetch("/chat/completions", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: CHAT_MODEL,
+      model: STT_MODEL,
       messages: [
         {
           role: "user",
           content: [
             {
               type: "text",
-              text: "Transkribera exakt vad som sägs i ljudklippet. Svara bara med transkriptionen, inget annat.",
+              text: "Transkribera exakt vad som sägs på svenska i ljudklippet. Svara bara med transkriptionen, inget annat.",
             },
             {
               type: "input_audio",
@@ -136,6 +159,17 @@ async function transcribeAudio(buffer, format) {
 
   const data = await response.json();
   return (data.choices?.[0]?.message?.content || "").trim();
+}
+
+async function transcribeAudio(buffer, format) {
+  const base64 = buffer.toString("base64");
+  const audioFormat = normalizeAudioFormat(format);
+
+  if (usesDedicatedTranscriptionEndpoint(STT_MODEL)) {
+    return transcribeViaDedicatedEndpoint(base64, audioFormat);
+  }
+
+  return transcribeViaChat(base64, audioFormat);
 }
 
 function normalizeAudioFormat(format) {
@@ -232,7 +266,7 @@ app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
     hasApiKey: Boolean(process.env.OPENROUTER_API_KEY),
-    models: { chat: CHAT_MODEL, tts: TTS_MODEL, stt: CHAT_MODEL },
+    models: { chat: CHAT_MODEL, tts: TTS_MODEL, stt: STT_MODEL },
   });
 });
 

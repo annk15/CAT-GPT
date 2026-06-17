@@ -59,7 +59,8 @@ For desktop only, plain HTTP still works: **http://localhost:3456**
 | `HOST` | `0.0.0.0` | Bind address (LAN access for iPhone) |
 | `USE_HTTPS` | auto if `certs/` exist | Force HTTPS (`1`) or HTTP (`0`) |
 | `SSL_CERT` / `SSL_KEY` | `certs/cert.pem`, `certs/key.pem` | TLS certificate paths |
-| `CHAT_MODEL` | `google/gemini-2.5-flash` | Chat + transcription |
+| `CHAT_MODEL` | `google/gemma-4-31b-it:free` | Cat reply text (free tier) |
+| `STT_MODEL` | `google/gemini-2.5-flash-lite` | Speech-to-text via Gemini audio (cheap for short clips) |
 | `TTS_MODEL` | `google/gemini-3.1-flash-tts-preview` | Cat voice |
 | `TTS_VOICE` | `Kore` | TTS voice id |
 
